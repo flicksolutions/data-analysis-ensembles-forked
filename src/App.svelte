@@ -202,7 +202,7 @@ const stepsChartData = {
     <li>RE-Prozesse: {data.length}</li>
     <li>Davon Local: {locals.length}</li>
     <li>Davon Global: {globals.length}</li>
-    <li>Paare mit der selben Initials aber unterschiedlichen Fixpunkten: {nm.length}</li>
+    <li>Paare mit den selben Initials aber unterschiedlichen Fixpunkten: {nm.length}</li>
   </ul>
   <Chart title="höheres Achievement aufgeteilt nach Poolsize" data={fixPointChartData} type='axis-mixed' barOptions={{stacked: 1}} />
   <Chart title="erreichen eines Globalen Optimums aufgeteilt nach Poolsize" data={reachedGlobalChartData} type='line' />
