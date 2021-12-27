@@ -1,24 +1,6 @@
 <script>
   import Chart from 'svelte-frappe-charts';
-  //import data from './assets/72merge.csv'
   import data from './assets/merged_argsEqPool5to10_1to2prem.csv'
-
-  /*const nonMatches = data => {
-    //console.log(data)
-    const ds = [...new Set(data.map(d => d.ds))];
-    //console.log(ds)
-    let returnArray = [];
-    ds.forEach(s => {
-      const itemsWithSameDS = data.filter(data => data.ds === s)
-      if (itemsWithSameDS.length !== 4){
-        console.log(itemsWithSameDS)
-      }
-      if ((itemsWithSameDS[0]?.fixed_point_coms !== itemsWithSameDS[3]?.fixed_point_coms) || (itemsWithSameDS[0]?.fixed_point_theory !== itemsWithSameDS[3]?.fixed_point_theory)) {
-        returnArray = [...returnArray, [itemsWithSameDS[0], itemsWithSameDS[3]]]
-      }
-    })
-    return returnArray
-  }*/
   
   const divideByX = (data, x) => {
     let divided = [];
@@ -51,7 +33,6 @@
     return nmInPoolSize
   }
 
-  //const nm = nonMatches(data);
   const locals = data.filter(o => o.model_name === "LocalStandardReflectiveEquilibrium");
   const globals = data.filter(o => o.model_name === "GlobalNumpyReflectiveEquilibrium");
   const dataStructures = [...new Set(data.map(d => d.ds))];
@@ -76,25 +57,13 @@
 
   //console.log(divideByPool(nm))
   const filteredData = divideByPool(nm);
-  /*filteredData.forEach((o,i) => {
-    console.log(`poolsize: ${i+5}`)
-    o.forEach(o => {
-        console.log("commitments")
-        console.log(o.map(p => p.fixed_point_coms))
-        console.log("theory")
-        console.log(o.map(p => p.fixed_point_theory))
-    })
-  })*/
+
   let achievement = filteredData.map((pool) => {
     const vs = {global: 0, local: 0, equal: 0}
     const regex = /((0|1)\.)\d+/g
     pool.forEach(pair => {
       const standardA = parseFloat(pair[0].achievements_evolution.match(regex).at(-1));
       const pieceMealA = parseFloat(pair[1].achievements_evolution.match(regex).at(-1));
-      /*console.log(standardA)
-      console.log("vs. ")
-      console.log(pieceMealA)
-      console.log(`${standardA > pieceMealA ? standardA: pieceMealA > standardA ? pieceMealA : "equal!!"} is bigger than ${standardA < pieceMealA ? standardA: pieceMealA < standardA ? pieceMealA : "equal!!"}`)*/
       
       if (standardA > pieceMealA){
         if (pair[0].model_name === 'GlobalNumpyReflectiveEquilibrium') {
@@ -114,8 +83,6 @@
     })
     return vs
   })
-  //console.log(achievement)
-  //console.log(filteredData)
 
   /*
   // convert the absolute numbers into percentages of the rest of the dataset.
@@ -182,7 +149,6 @@
         name: 'global',
         values: divideByPool(globals).map(pool => {
           let counter = 0;
-          //console.log(pool)
           pool.forEach(s => reachedOptimum(s) ? counter++:false)
           return counter
         })
@@ -191,14 +157,12 @@
         name: 'local',
         values: divideByPool(locals).map(pool => {
           let counter = 0;
-          //console.log(pool)
           pool.forEach(s => reachedOptimum(s) ? counter++:false)
           return counter
         })
       }
 ]
 const reachedGlobalChartData = {
-  title: "erreichen eines Globalen Optimums aufgeteilt nach Poolsize",
   labels: [5,6,7,8,9,10],
   datasets: reachedGlobal
 }
@@ -210,7 +174,6 @@ const getMean = pool => {
         })
 }
 const stepsChartData = {
-  title: "Durchschnitt an Schritten aufgeteilt nach Poolsize",
   labels: [5,6,7,8,9,10],
   datasets: [
           {
@@ -253,14 +216,8 @@ const stepsChartData = {
   }
 
   main {
-    /*text-align: center;*/
     padding: 1em;
     margin: 0 auto;
-  }
-
-  img {
-    height: 16rem;
-    width: 16rem;
   }
 
   h1 {
@@ -271,12 +228,6 @@ const stepsChartData = {
     line-height: 1.1;
     margin: 2rem auto;
     max-width: 14rem;
-  }
-
-  p {
-    max-width: 14rem;
-    margin: 1rem auto;
-    line-height: 1.35;
   }
 
   @media (min-width: 480px) {
